@@ -5,7 +5,6 @@ require ROOT.DS.'modele'.DS.'persistance'.DS.'article.php';
         public $msg;
         public $categories = array();
         public $articles = array();
-        public $allArticles = array();
         var $articlesConnex;
         var $categoriesConnex;
         public $params = array();
@@ -26,6 +25,7 @@ require ROOT.DS.'modele'.DS.'persistance'.DS.'article.php';
             }
             $this->categories = $this->categoriesConnex->getAllCategories();
             $allCategories = $this->categories;
+            $allArticles = array();
             $message = $this->msg;
             require($view);
        }
@@ -45,16 +45,15 @@ require ROOT.DS.'modele'.DS.'persistance'.DS.'article.php';
        }
 
        public function showCategory() {
+        $url = $_SERVER['REQUEST_URI'];
         $url = trim($url, '/');
         $this->params = explode('/', $url);
-        $pars = $this->params;
-        $action = $this->params[1];
-        $controler = $this->params[0];
-        $param = $this->params[2];
-        if ($controler === 'articles' && $action === 'category' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->articles = $this->articlesConnex->getAllArticlesByCategory($param);
-            $this->allArticles = $this->articles;
-            require_once($this->params);
+        $controler = $this->params[1];
+        $action = $this->params[2];
+        if ($action === 'category' && $controler === 'articles' && $_SERVER['REQUEST_METHOD'] === 'GET') {
+            $categoryId = $_GET['categoryId'];
+            $this->articles = $this->articlesConnex->getAllArticlesByCategory($categoryId);
+            $allArticles = $this->articlesConnex->getAllArticlesByCategory($categoryId);
             $view = WEBROOT.DS.'home.php';
         }
         else {

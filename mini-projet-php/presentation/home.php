@@ -9,7 +9,7 @@
     <div class="row justify-content-center border border-dark m-1" style="min-height: 60px;">
         <?php foreach ($allCategories as $category): ?>
             <div class="col text-center">
-                <form action="/articles/category/<?= $category['id']; ?>" method="post">
+                <form action="/mini-projet-php/articles/category<?= $category['id']; ?>" method="get">
                     <input type="hidden" name="categoryId" value="<?= $category['id']; ?>">
                     <button type="submit" class = "btn btn-outline-secondary m-3"><?= $category['libelle']; ?></button>
                 </form>
@@ -26,8 +26,8 @@
         <?php foreach ($allArticles as $article): ?>
             <div class="col border border-dark">
                 <center>
-                    <p><strong><?php echo $article['title']; ?></strong></p>
-                    <p><?php echo $article['content']; ?></p>
+                    <p><strong><?php echo $article['titre']; ?></strong></p>
+                    <p><?php echo $article['contenu']; ?></p>
                 </center>
             </div>
         <?php endforeach; ?>
