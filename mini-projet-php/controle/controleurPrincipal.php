@@ -5,8 +5,11 @@ require ROOT.DS.'modele'.DS.'persistance'.DS.'article.php';
         public $msg;
         public $categories = array();
         public $articles = array();
+        public $allArticles = array();
         var $articlesConnex;
         var $categoriesConnex;
+        public $params = array();
+        public $pars = array();
 
         function __construct($request){
             $this->request = $request;
@@ -29,7 +32,7 @@ require ROOT.DS.'modele'.DS.'persistance'.DS.'article.php';
 
        public function error(){
         
-        require ERROR.'error404.php';
+        include ERROR.'error404.php';
    }
 
        public function setMsg($msg){
@@ -38,7 +41,25 @@ require ROOT.DS.'modele'.DS.'persistance'.DS.'article.php';
 
        public function getAllByCategory($id){
         $this->articles = $this->articlesConnex->getAllArticlesByCategory($id);
-        $allArticles = $this->articles;
+        $this->allArticles = $this->articles;
        }
+
+       public function showCategory() {
+        $url = trim($url, '/');
+        $this->params = explode('/', $url);
+        $pars = $this->params;
+        $action = $this->params[1];
+        $controler = $this->params[0];
+        $param = $this->params[2];
+        if ($controler === 'articles' && $action === 'category' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->articles = $this->articlesConnex->getAllArticlesByCategory($param);
+            $this->allArticles = $this->articles;
+            require_once($this->params);
+            $view = WEBROOT.DS.'home.php';
+        }
+        else {
+            include ERROR.'error404.php';
+        }
+    }
     }
 ?>
