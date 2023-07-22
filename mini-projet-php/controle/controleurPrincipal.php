@@ -1,5 +1,4 @@
 <?php
-require ROOT.DS.'modele'.DS.'persistance'.DS.'category.php';
 require ROOT.DS.'modele'.DS.'persistance'.DS.'article.php';
     class ControleurPrincipal {
         public $request;
@@ -22,6 +21,8 @@ require ROOT.DS.'modele'.DS.'persistance'.DS.'article.php';
             else {
                 $view = PAGES.$this->request->controller.$view.'.php';
             }
+            $this->categories = $this->categoriesConnex->getAllCategories();
+            $allCategories = $this->categories;
             $message = $this->msg;
             require($view);
        }
@@ -33,6 +34,11 @@ require ROOT.DS.'modele'.DS.'persistance'.DS.'article.php';
 
        public function setMsg($msg){
         $this->msg = $msg;
+       }
+
+       public function getAllByCategory($id){
+        $this->articles = $this->articlesConnex->getAllArticlesByCategory($id);
+        $allArticles = $this->articles;
        }
     }
 ?>

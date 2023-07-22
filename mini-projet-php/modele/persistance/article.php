@@ -1,5 +1,5 @@
 <?php
-require ROOT.DS.'modele'.DS.'persistance'.DS.'connexion.php';
+require ROOT.DS.'modele'.DS.'persistance'.DS.'category.php';
 class ArticleCrud {
     private $db; // Instance de la classe Connect
 
@@ -25,6 +25,18 @@ class ArticleCrud {
     public function getAllArticles() {
         try {
             $stmt = $this->db->prepare("SELECT * FROM article");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Erreur lors de la lecture des articles : " . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getAllArticlesByCategory($categorieId) {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM article WHERE categorie = :categorieId");
+            $stmt->bindParam(':categorie', $categorieId);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
