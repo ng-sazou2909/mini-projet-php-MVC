@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule (.*) mini-projet-php/$1 [L]
