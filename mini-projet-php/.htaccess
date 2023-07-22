@@ -1,4 +1,6 @@
 RewriteEngine On
+AcceptPathInfo On
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule %{REQUEST_FILENAME} !-f
 RewriteRule (.*) index.php?url=$1 [NC,L]
+RewriteRule ^articles/([0-9]+)$ index.php?page=articles&id=$1 [L]

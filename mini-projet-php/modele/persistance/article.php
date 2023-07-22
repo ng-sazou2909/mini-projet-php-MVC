@@ -36,7 +36,7 @@ class ArticleCrud {
     public function getAllArticlesByCategory($categorieId) {
         try {
             $stmt = $this->db->prepare("SELECT * FROM article WHERE categorie = :categorieId");
-            $stmt->bindParam(':categorie', $categorieId);
+            $stmt->bindParam(':categorieId', $categorieId);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {

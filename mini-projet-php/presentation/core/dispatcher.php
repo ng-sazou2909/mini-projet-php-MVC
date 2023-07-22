@@ -26,13 +26,8 @@ require CORE.'routeur.php';
             if (method_exists($controller, $method)) {
                 call_user_func_array(array($controller, $method), $arguments);
             } else {
-                $this->error();
+                call_user_func_array(array($controller, $method), $arguments);
             }
-        }
-
-        function error(){
-            $controller = new ControleurPrincipal($this->req);
-            $controller->error('404');
         }
 
         function loadControleur(){
@@ -44,10 +39,10 @@ require CORE.'routeur.php';
                 if (class_exists($name)) {
                     return new $name($this->req);
                 }else{
-                    $this->error();
+                    return new $name($this->req);
                 }
             }else{
-                $this->error();
+                return new $name($this->req);
             }
         }
     }
